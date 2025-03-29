@@ -25,6 +25,12 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  void handleResetTodoList() {
+    setState(() {
+      todoList = [];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -81,19 +87,47 @@ class _HomePageState extends State<HomePage> {
                   const SizedBox(
                     height: 32,
                   ),
+                  Expanded(
+                    child: SizedBox(
+                      width: 500,
+                      child: ListView(
+                        shrinkWrap: true,
+                        children: [
+                          for (Todo todo in todoList)
+                            TodoListItem(
+                              todo: todo,
+                              onDelete: onDelete,
+                            ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 32,
+                  ),
                   SizedBox(
                     width: 500,
-                    child: ListView(
-                      shrinkWrap: true,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        for (Todo todo in todoList)
-                          TodoListItem(
-                            todo: todo,
-                            onDelete: onDelete,
+                        Text(
+                            'Você possui ${todoList.length} tarefas restantes.'),
+                        ElevatedButton(
+                          onPressed:
+                              todoList.isNotEmpty ? handleResetTodoList : null,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue,
                           ),
+                          child: const Text(
+                            "Apagar Tudo",
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
