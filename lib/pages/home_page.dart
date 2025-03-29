@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_todo_list/widgets/todo_list_item.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -23,9 +24,9 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: Colors.white,
-        child: Center(
+      body: Center(
+        child: Container(
+          color: Colors.white,
           child: Padding(
             padding: const EdgeInsets.all(32),
             child: Column(
@@ -75,32 +76,15 @@ class _HomePageState extends State<HomePage> {
                 const SizedBox(
                   height: 32,
                 ),
-                Flexible(
-                  child: ListView(
-                    shrinkWrap: true,
-                    children: [
-                      for (String todo in todoList)
-                        Container(
-                          decoration: BoxDecoration(
-                              color: Colors.grey[100],
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(5))),
-                          child: ListTile(
-                            subtitle: Text(
-                              '28/03/2025',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.grey[700],
-                              ),
-                            ),
-                            title: Text(
-                              todo,
-                              style: const TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w600),
-                            ),
-                          ),
-                        ),
-                    ],
+                SizedBox(
+                  width: 500,
+                  child: Flexible(
+                    child: ListView(
+                      shrinkWrap: true,
+                      children: [
+                        for (String todo in todoList) TodoListItem(todo: todo),
+                      ],
+                    ),
                   ),
                 )
               ],
