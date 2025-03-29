@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:flutter_todo_list/models/todo.dart';
+import 'package:intl/intl.dart';
 
 class TodoListItem extends StatefulWidget {
-  final String todo;
+  final Todo todo;
+  final void Function(Todo) removeTodo;
 
-  const TodoListItem({super.key, required this.todo});
+  const TodoListItem({super.key, required this.todo, required this.removeTodo});
 
   @override
   State<TodoListItem> createState() => _TodoListItemState();
@@ -12,32 +16,48 @@ class TodoListItem extends StatefulWidget {
 class _TodoListItemState extends State<TodoListItem> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          color: Colors.grey[100],
-          borderRadius: const BorderRadius.all(Radius.circular(5))),
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    return Slidable(
+      closeOnScroll: true,
+      endActionPane: ActionPane(
+        extentRatio: 0.20,
+        motion: const ScrollMotion(),
         children: [
-          Text(
-            "29/03/2025",
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.grey[700],
-            ),
-          ),
-          const SizedBox(
-            height: 4,
-          ),
-          Text(
-            widget.todo,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
+          SlidableAction(
+            onPressed: widget.removeTodo(widget.todo),
+            padding: EdgeInsets.all(0),
+            icon: Icons.delete,
+            backgroundColor: Colors.red,
           ),
         ],
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.grey[100],
+          borderRadius: const BorderRadius.all(Radius.circular(5)),
+        ),
+        padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              DateFormat('dd/MM/yyyy - HH:mm').format(widget.todo.date),
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.grey[700],
+              ),
+            ),
+            const SizedBox(
+              height: 4,
+            ),
+            Text(
+              widget.todo.title,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
