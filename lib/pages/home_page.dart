@@ -25,12 +25,6 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  void handleRemoveTodo(Todo todo) {
-    setState(() {
-      todoList.remove(todo);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -89,17 +83,15 @@ class _HomePageState extends State<HomePage> {
                   ),
                   SizedBox(
                     width: 500,
-                    child: Flexible(
-                      child: ListView(
-                        shrinkWrap: true,
-                        children: [
-                          for (Todo todo in todoList)
-                            TodoListItem(
-                              todo: todo,
-                              removeTodo: handleRemoveTodo,
-                            ),
-                        ],
-                      ),
+                    child: ListView(
+                      shrinkWrap: true,
+                      children: [
+                        for (Todo todo in todoList)
+                          TodoListItem(
+                            todo: todo,
+                            onDelete: onDelete,
+                          ),
+                      ],
                     ),
                   )
                 ],
@@ -109,5 +101,11 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  void onDelete(Todo todo) {
+    setState(() {
+      todoList.remove(todo);
+    });
   }
 }

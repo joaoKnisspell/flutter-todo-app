@@ -5,9 +5,9 @@ import 'package:intl/intl.dart';
 
 class TodoListItem extends StatefulWidget {
   final Todo todo;
-  final void Function(Todo) removeTodo;
+  final Function(Todo) onDelete;
 
-  const TodoListItem({super.key, required this.todo, required this.removeTodo});
+  const TodoListItem({super.key, required this.todo, required this.onDelete});
 
   @override
   State<TodoListItem> createState() => _TodoListItemState();
@@ -23,7 +23,7 @@ class _TodoListItemState extends State<TodoListItem> {
         motion: const ScrollMotion(),
         children: [
           SlidableAction(
-            onPressed: widget.removeTodo(widget.todo),
+            onPressed: (_) => widget.onDelete(widget.todo),
             padding: EdgeInsets.all(0),
             icon: Icons.delete,
             backgroundColor: Colors.red,
